@@ -3,86 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <link href="/css/styles.css" rel="stylesheet"/>
-    <title>Portfolio XILTEN</title>
+    <title>Portfolio</title>
 </head>
 <body>
 
-<h1>Portfolio XILTEN</h1>
-<hr>
-
-<!-- INFO PERSONAL -->
-<section>
-    <h2>Información Personal</h2>
-
-    <div th:each="i : ${info}">
-        <img th:src="${i.foto_url}" width="150">
-        <p><b>Nombre:</b> <span th:text="${i.nombre}"></span></p>
-        <p><b>Descripción:</b> <span th:text="${i.descripcion}"></span></p>
-        <p><b>Email:</b> <span th:text="${i.email}"></span></p>
-
-        <a th:href="${i.linkedin}" target="_blank">LinkedIn</a> |
-        <a th:href="${i.github}" target="_blank">GitHub</a>
+<header class="topbar">
+    <div class="container">
+        <h1 class="title">Mi Portfolio</h1>
     </div>
-</section>
+</header>
 
-<hr>
+<main class="container">
 
-<!-- ESTUDIOS -->
-<section>
-    <h2>Estudios</h2>
+    <!-- INFO -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Información</h2>
+        </div>
 
-    <ul>
-        <li th:each="e : ${estudios}">
-            <b th:text="${e.titulo}"></b> -
-            <span th:text="${e.institucion}"></span><br>
-            <small th:text="${e.descripcion}"></small>
-        </li>
-    </ul>
-</section>
+        <div class="grid grid-2">
+            <article class="card card-profile" th:each="i : ${info}">
+                <div class="profile">
+                    <img class="avatar" th:src="${i.foto_url}" alt="Foto"/>
+                    <div>
+                        <h3 class="card-title" th:text="${i.nombre}">Nombre</h3>
+                        <p class="muted" th:text="${i.descripcion}">Descripción</p>
+                    </div>
+                </div>
 
-<hr>
+                <div class="card-actions">
+                    <a class="chip" th:href="'mailto:' + ${i.email}" th:text="${i.email}">email</a>
+                    <a class="chip" th:href="${i.linkedin}" target="_blank">LinkedIn</a>
+                    <a class="chip" th:href="${i.github}" target="_blank">GitHub</a>
+                </div>
+            </article>
+        </div>
+    </section>
 
-<!-- EXPERIENCIA -->
-<section>
-    <h2>Experiencia</h2>
+    <!-- ESTUDIOS -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Estudios</h2>
+        </div>
 
-    <ul>
-        <li th:each="ex : ${experiencias}">
-            <b th:text="${ex.puesto}"></b> -
-            <span th:text="${ex.empresa}"></span><br>
-            <small th:text="${ex.descripcion}"></small>
-        </li>
-    </ul>
-</section>
+        <div class="grid grid-3">
+            <article class="card" th:each="e : ${estudios}">
+                <h3 class="card-title" th:text="${e.titulo}">Título</h3>
+                <p class="muted"><span th:text="${e.institucion}">Centro</span></p>
+                <p class="text" th:text="${e.descripcion}">Descripción</p>
+                <p class="meta">
+                    <span th:text="${#dates.format(e.fecha_inicio, 'yyyy-MM-dd')}">inicio</span>
+                    —
+                    <span th:text="${#dates.format(e.fecha_fin, 'yyyy-MM-dd')}">fin</span>
+                </p>
+            </article>
+        </div>
+    </section>
 
-<hr>
+    <!-- EXPERIENCIA -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Experiencia</h2>
+        </div>
 
-<!-- LENGUAJES -->
-<section>
-    <h2>Tecnologías</h2>
+        <div class="grid grid-3">
+            <article class="card" th:each="ex : ${experiencias}">
+                <h3 class="card-title" th:text="${ex.puesto}">Puesto</h3>
+                <p class="muted" th:text="${ex.empresa}">Empresa</p>
+                <p class="text" th:text="${ex.descripcion}">Descripción</p>
+                <p class="meta">
+                    <span th:text="${#dates.format(ex.fecha_inicio, 'yyyy-MM-dd')}">inicio</span>
+                    —
+                    <span th:text="${#dates.format(ex.fecha_fin, 'yyyy-MM-dd')}">fin</span>
+                </p>
+            </article>
+        </div>
+    </section>
 
-    <div th:each="l : ${lenguajes}">
-        <img th:src="${l.icono_url}" width="50">
-        <span th:text="${l.nombre}"></span>
+    <!-- LENGUAJES -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Lenguajes / Tecnologías</h2>
+        </div>
+
+        <div class="grid grid-4">
+            <article class="card tech" th:each="l : ${lenguajes}">
+                <img class="tech-icon" th:src="${l.icono_url}" alt="Icono"/>
+                <h3 class="card-title" th:text="${l.nombre}">Tecnología</h3>
+            </article>
+        </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Proyectos</h2>
+        </div>
+
+        <div class="grid grid-3">
+            <article class="card project" th:each="p : ${proyectos}">
+                <div class="thumb">
+                    <img th:src="${p.image_url}" alt="Proyecto"/>
+                </div>
+                <div class="project-body">
+                    <h3 class="card-title" th:text="${p.nombre}">Nombre</h3>
+                    <p class="text" th:text="${p.descripcion}">Descripción</p>
+                    <a class="btn" th:href="${p.github_url}" target="_blank">Ver en GitHub</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <span class="muted">© Portfolio</span>
     </div>
-</section>
-
-<hr>
-
-<!-- PROYECTOS -->
-<section>
-    <h2>Proyectos</h2>
-
-    <div th:each="p : ${proyectos}">
-        <h3 th:text="${p.nombre}"></h3>
-
-        <img th:src="${p.image_url}" width="200">
-
-        <p th:text="${p.descripcion}"></p>
-
-        <a th:href="${p.github_url}" target="_blank">Ver repositorio</a>
-    </div>
-</section>
+</footer>
+<form th:action="@{/email/send}" method="post">
+    <input type="text" name="to" id="to">
+    <input type="text" name="subject" id="subject">
+    <input type="text" name="body" id="body">
+    <input type="submit" value="Enviar">
+</form>
 
 </body>
 </html>
