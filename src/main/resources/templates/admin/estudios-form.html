@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Estudios</title>
+    <style>
+        body{background:#6c63ff;font-family:Arial}
+        .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .card{background:#fff;padding:25px;border-radius:16px;width:750px}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        input{width:100%;padding:10px;border-radius:10px;border:1px solid #ccc}
+        .actions{text-align:right;margin-top:15px}
+        .btn{padding:10px 16px;border-radius:12px;font-weight:600;border:none}
+        .save{background:#6c63ff;color:white}
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="card">
+
+        <h2>Agregar Estudios</h2>
+
+        <form th:action="@{/admin/estudios/guardar}" th:object="${estudio}" method="post">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <div class="grid">
+                <input th:field="*{titulo}" placeholder="Título">
+                <input th:field="*{institucion}" placeholder="Institución">
+                <input type="date" th:field="*{fecha_inicio}">
+                <input type="date" th:field="*{fecha_fin}">
+            </div>
+
+            <input th:field="*{descripcion}" placeholder="Descripción">
+
+            <div class="actions">
+                <button type="submit">Guardar</button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

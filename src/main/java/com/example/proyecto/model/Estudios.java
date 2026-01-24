@@ -1,6 +1,7 @@
 package com.example.proyecto.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,7 +15,9 @@ public class Estudios {
     private String titulo;
     private String descripcion;
     private String institucion;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha_inicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha_fin;
 
     public Estudios() {

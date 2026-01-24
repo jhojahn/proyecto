@@ -1,17 +1,51 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="fragments/header :: head('Dashboard')"></head>
-
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+        .card{width:min(720px,100%);background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.18);padding:26px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+        .btn{display:block;text-align:center;padding:12px 14px;border-radius:12px;text-decoration:none;font-weight:600}
+        .btn-primary{background:linear-gradient(90deg,#6b7cff,#6b3fa0);color:#fff}
+        .btn-outline{border:2px solid #6b7cff;color:#2b2b2b}
+        .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .muted{opacity:.75}
+        form{margin:0}
+    </style>
+</head>
 <body>
+<div class="wrap">
+    <div class="card">
+        <div class="top">
+            <div>
+                <h2 style="margin:0">Panel Admin</h2>
+                <div class="muted">Accede rápido a los módulos del portafolio</div>
+            </div>
 
-<div th:replace="fragments/header :: navbar"></div>
+            <!-- Logout Spring Security -->
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-outline" style="cursor:pointer;background:#fff">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
 
-<div class="container mt-4">
-    <h2>Panel Admin</h2>
+        <div class="grid">
+            <a class="btn btn-primary" th:href="@{/admin/info}">Información</a>
+            <a class="btn btn-primary" th:href="@{/admin/estudios}">Estudios</a>
+            <a class="btn btn-primary" th:href="@{/admin/experiencia}">Experiencia</a>
+            <a class="btn btn-primary" th:href="@{/admin/lenguajes}">Lenguajes</a>
+            <a class="btn btn-primary" th:href="@{/admin/proyectos}">Proyectos</a>
+
+
+            <a class="btn btn-outline" th:href="@{/}">Ver Portafolio</a>
+        </div>
+    </div>
 </div>
-
-<div th:replace="fragments/footer :: footer"></div>
-
 </body>
 </html>

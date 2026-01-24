@@ -4,6 +4,8 @@ import com.example.proyecto.model.Estudios;
 import com.example.proyecto.repository.EstudiosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -28,4 +30,11 @@ public class EstudiosService {
     public void deleteEstudios(Long id) {
         estudiosRepository.deleteById(id);
     }
+
+    //@PostMapping("/guardar")
+    //public String guardar(@ModelAttribute("estudio") Estudios estudio) {
+      //  System.out.println(">>> POST /admin/estudios/guardar OK: " + estudio.getTitulo());
+        //estudiosRepository.save(estudio);
+        //return "redirect:/admin/estudios?ok";
+   // }
 }
