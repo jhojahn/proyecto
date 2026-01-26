@@ -2,6 +2,7 @@ package com.example.proyecto.model;
 
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,7 +15,11 @@ public class Experiencia {
     private String puesto;
     private String empresa;
     private String descripcion;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha_inicio;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha_fin;
 
     public Experiencia() {

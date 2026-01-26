@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/experiencias")
+@RequestMapping("/admin/experiencia")
 @CrossOrigin(origins = "*")
 public class ExperienciaController {
 
@@ -20,6 +20,7 @@ public class ExperienciaController {
     @GetMapping("")
     public String experienciaForm(Model model) {
         model.addAttribute("experiencia", new Experiencia());
+        model.addAttribute("experiencias", experienciaService.getAllExperiencia());
         return "admin/experiencia-form";
     }
 
@@ -56,9 +57,10 @@ public class ExperienciaController {
     }
 
 
-    @ResponseBody
+
     @DeleteMapping("/{id}")
-    public void deleteExperiencia(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         experienciaService.deleteExperiencia(id);
+        return "redirect:/admin/experiencia?deleted";
     }
 }

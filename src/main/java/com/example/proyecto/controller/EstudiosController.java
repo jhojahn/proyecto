@@ -17,52 +17,53 @@ public class EstudiosController {
     @Autowired
     private EstudiosService estudiosService;
 
-    // ✅ HTML (renderiza vista)
     @GetMapping("")
     public String estudiosForm(Model model) {
         model.addAttribute("estudio", new Estudios());
+        model.addAttribute("estudios", estudiosService.getAllEstudios());
         return "admin/estudios-form";
     }
 
-    // ✅ HTML (POST del formulario)
+
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute("estudio") Estudios estudio){
         estudiosService.createEstudios(estudio);
         return "redirect:/admin/estudios?ok";
     }
 
-    // ✅ JSON
+
     @ResponseBody
     @GetMapping("/listar")
     public List<Estudios> getEstudios() {
         return estudiosService.getAllEstudios();
     }
 
-    // ✅ JSON
+
     @ResponseBody
     @GetMapping("/{id}")
     public Estudios getEstudio(@PathVariable Long id) {
         return estudiosService.getEstudiosById(id);
     }
 
-    // ✅ JSON (crear por API)
+
     @ResponseBody
     @PostMapping("")
     public Estudios addEstudio(@RequestBody Estudios estudios) {
         return estudiosService.createEstudios(estudios);
     }
 
-    // ✅ JSON
+
     @ResponseBody
     @PutMapping("/{id}")
     public Estudios updateEstudio(@PathVariable Long id, @RequestBody Estudios estudios) {
         return estudiosService.updateEstudios(id, estudios);
     }
 
-    // ✅ JSON
-    @ResponseBody
+
+
     @DeleteMapping("/{id}")
-    public void deleteEstudio(@PathVariable Long id) {
+    public String deleteEstudio(@PathVariable Long id) {
         estudiosService.deleteEstudios(id);
+        return "redirect:/admin/estudios?deleted";
     }
 }

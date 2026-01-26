@@ -2,6 +2,7 @@ package com.example.proyecto.model;
 
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Proyecto {
     private String descripcion;
     private String github_url;
     private String image_url;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
 
     public Proyecto() {

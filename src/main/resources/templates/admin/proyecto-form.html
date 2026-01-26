@@ -1,43 +1,74 @@
-<!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Proyectos - Admin</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8">
+    <title>Proyectos</title>
     <style>
-        .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-        .card{width:min(820px,100%);background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.18);padding:26px}
-        .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-        .row1{display:grid;grid-template-columns:1fr;gap:14px}
-        label{font-weight:600}
-        input,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #d9d9d9}
-        textarea{min-height:110px;resize:vertical}
-        .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
-        .btn{padding:10px 14px;border-radius:12px;font-weight:600;border:none;cursor:pointer;text-decoration:none}
-        .btn-primary{background:linear-gradient(90deg,#6b7cff,#6b3fa0);color:#fff}
-        .btn-outline{background:#fff;border:2px solid #6b7cff}
+        body{background:#6c63ff;font-family:Arial}
+        .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .card{background:#fff;padding:25px;border-radius:16px;width:950px}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        input{width:100%;padding:10px;border-radius:10px;border:1px solid #ccc}
+        .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:15px}
+        button{padding:10px 16px;border-radius:12px;font-weight:600;border:1px solid #ddd;background:#f5f5f5;cursor:pointer}
+        .save{background:#6c63ff;color:white;border:none}
+        .list{margin-top:20px;border-top:1px solid #eee;padding-top:16px}
+        .item{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:12px;border:1px solid #eee;border-radius:12px;margin-top:10px}
+        .del{background:#ff5c5c;color:white;border:none}
+        a{text-decoration:none}
+        p{margin:6px 0}
+        h4{margin:0 0 6px 0}
     </style>
 </head>
 <body>
 <div class="wrap">
     <div class="card">
-        <h2 style="margin-top:0">Agregar Proyecto</h2>
+
+        <h2>Agregar Proyecto</h2>
 
         <form th:action="@{/admin/proyectos/guardar}" th:object="${proyecto}" method="post">
-
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-            <input th:field="*{nombre}" placeholder="Nombre">
-            <input th:field="*{descripcion}" placeholder="Descripción">
-            <input th:field="*{github_url}" placeholder="GitHub URL">
-            <input th:field="*{image_url}" placeholder="Imagen URL">
+            <div class="grid">
+                <input th:field="*{nombre}" placeholder="Nombre">
+                <input type="date" th:field="*{fecha}">
+                <input th:field="*{github_url}" placeholder="GitHub URL">
+                <input th:field="*{image_url}" placeholder="Imagen URL">
+            </div>
 
-            <input type="date" th:field="*{fecha}">
+            <input th:field="*{descripcion}" placeholder="Descripción" style="margin-top:14px">
 
-            <button>Guardar</button>
-
+            <div class="actions">
+                <button class="save" type="submit">Guardar</button>
+                <a th:href="@{/admin}"><button type="button">Volver al panel</button></a>
+            </div>
         </form>
+
+        <div class="list">
+            <h3 style="margin:0">Añadidos</h3>
+
+            <div th:if="${#lists.isEmpty(proyectos)}" style="color:#666;margin-top:10px">
+                No hay proyectos todavía.
+            </div>
+
+            <div class="item" th:each="p : ${proyectos}">
+                <div>
+                    <h4 th:text="${p.nombre}">Nombre</h4>
+                    <p><b>Fecha:</b> <span th:text="${#dates.format(p.fecha,'yyyy-MM-dd')}">2026-01-01</span></p>
+                    <p><b>Descripción:</b> <span th:text="${p.descripcion}">---</span></p>
+                    <p><b>GitHub:</b> <span th:text="${p.github_url}">---</span></p>
+                    <p><b>Imagen:</b> <span th:text="${p.image_url}">---</span></p>
+                </div>
+
+                <form th:action="@{/admin/proyectos/{id}(id=${p.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="del">Eliminar</button>
+                </form>
+            </div>
+
+        </div>
+
     </div>
 </div>
 </body>

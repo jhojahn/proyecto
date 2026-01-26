@@ -1,69 +1,75 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Info Personal</title>
+    <title>Info</title>
     <style>
         body{background:#6c63ff;font-family:Arial}
-        .wrap{min-height:100vh;display:flex;justify-content:center;align-items:center}
-        .card{background:#fff;padding:25px;border-radius:16px;width:750px;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+        .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .card{background:#fff;padding:25px;border-radius:16px;width:850px}
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-        label{font-weight:600}
-        input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #ccc}
-        textarea{resize:none;height:90px}
-        .actions{text-align:right;margin-top:15px}
-        .btn{padding:10px 16px;border-radius:12px;border:none;font-weight:600;cursor:pointer}
-        .save{background:#6c63ff;color:white}
-        .back{background:white;border:2px solid #6c63ff}
+        input{width:100%;padding:10px;border-radius:10px;border:1px solid #ccc}
+        .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:15px}
+        button{padding:10px 16px;border-radius:12px;font-weight:600;border:1px solid #ddd;background:#f5f5f5;cursor:pointer}
+        .save{background:#6c63ff;color:white;border:none}
+        .list{margin-top:20px;border-top:1px solid #eee;padding-top:16px}
+        .item{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:12px;border:1px solid #eee;border-radius:12px;margin-top:10px}
+        .del{background:#ff5c5c;color:white;border:none}
+        a{text-decoration:none}
+        p{margin:6px 0}
+        h4{margin:0 0 6px 0}
     </style>
 </head>
-
 <body>
 <div class="wrap">
     <div class="card">
 
-        <h2>Información Personal</h2>
+        <h2>Agregar Info</h2>
 
         <form th:action="@{/admin/info/guardar}" th:object="${info}" method="post">
-
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <div class="grid">
-                <div>
-                    <label>Nombre</label>
-                    <input th:field="*{nombre}">
-                </div>
-
-                <div>
-                    <label>Email</label>
-                    <input th:field="*{email}">
-                </div>
-
-                <div>
-                    <label>Foto URL</label>
-                    <input th:field="*{foto_url}">
-                </div>
-
-                <div>
-                    <label>LinkedIn</label>
-                    <input th:field="*{linkedin}">
-                </div>
-
-                <div>
-                    <label>GitHub</label>
-                    <input th:field="*{github}">
-                </div>
+                <input th:field="*{nombre}" placeholder="Nombre">
+                <input th:field="*{email}" placeholder="Email">
+                <input th:field="*{foto_url}" placeholder="Foto URL">
+                <input th:field="*{linkedin}" placeholder="LinkedIn URL">
             </div>
 
-            <label>Descripción</label>
-            <textarea th:field="*{descripcion}"></textarea>
+            <input th:field="*{github}" placeholder="GitHub URL" style="margin-top:14px">
+            <input th:field="*{descripcion}" placeholder="Descripción" style="margin-top:14px">
 
             <div class="actions">
-                <a th:href="@{/admin}" class="btn back">Volver</a>
-                <button class="btn save">Guardar</button>
+                <button class="save" type="submit">Guardar</button>
+                <a th:href="@{/admin}"><button type="button">Volver al panel</button></a>
+            </div>
+        </form>
+
+        <div class="list">
+            <h3 style="margin:0">Añadidos</h3>
+
+            <div th:if="${#lists.isEmpty(infos)}" style="color:#666;margin-top:10px">
+                No hay info todavía.
             </div>
 
-        </form>
+            <div class="item" th:each="i : ${infos}">
+                <div>
+                    <h4 th:text="${i.nombre}">Nombre</h4>
+                    <p><b>Email:</b> <span th:text="${i.email}">---</span></p>
+                    <p><b>Descripción:</b> <span th:text="${i.descripcion}">---</span></p>
+                    <p><b>LinkedIn:</b> <span th:text="${i.linkedin}">---</span></p>
+                    <p><b>GitHub:</b> <span th:text="${i.github}">---</span></p>
+                    <p><b>Foto:</b> <span th:text="${i.foto_url}">---</span></p>
+                </div>
+
+                <form th:action="@{/admin/info/{id}(id=${i.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="del">Eliminar</button>
+                </form>
+            </div>
+
+        </div>
 
     </div>
 </div>

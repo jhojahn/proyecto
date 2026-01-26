@@ -31,10 +31,4 @@ public class EstudiosService {
         estudiosRepository.deleteById(id);
     }
 
-    //@PostMapping("/guardar")
-    //public String guardar(@ModelAttribute("estudio") Estudios estudio) {
-      //  System.out.println(">>> POST /admin/estudios/guardar OK: " + estudio.getTitulo());
-        //estudiosRepository.save(estudio);
-        //return "redirect:/admin/estudios?ok";
-   // }
 }

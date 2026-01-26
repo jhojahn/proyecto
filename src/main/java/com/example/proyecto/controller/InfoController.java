@@ -20,6 +20,7 @@ public class InfoController {
     @GetMapping("")
     public String infoForm(Model model) {
         model.addAttribute("info", new Info());
+        model.addAttribute("infos", infoService.getAllInfo());
         return "admin/info-form";
     }
 
@@ -54,9 +55,10 @@ public class InfoController {
         return infoService.updateInfo(id, info);
     }
 
-    @ResponseBody
+
     @DeleteMapping("/{id}")
-    public void deleteInfo(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         infoService.deleteInfo(id);
+        return "redirect:/admin/info?deleted";
     }
 }

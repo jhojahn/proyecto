@@ -23,6 +23,7 @@ public class ProyectosController {
     @GetMapping("")
     public String proyectoForm(Model model) {
         model.addAttribute("proyecto", new Proyecto());
+        model.addAttribute("proyectos", proyectoService.getAllProyecto());
         return "admin/proyecto-form";
     }
 
@@ -61,9 +62,10 @@ public class ProyectosController {
     }
 
 
-    @ResponseBody
+
     @DeleteMapping("/{id}")
-    public void deleteProyecto(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         proyectoService.deleteProyecto(id);
+        return "redirect:/admin/proyectos?deleted";
     }
 }

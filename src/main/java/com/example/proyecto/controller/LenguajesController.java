@@ -20,6 +20,7 @@ public class LenguajesController {
     @GetMapping("")
     public String lenguajeForm(Model model) {
         model.addAttribute("lenguaje", new Lenguaje());
+        model.addAttribute("lenguajes", lenguajeService.getAllLenguaje());
         return "admin/lenguaje-form";
     }
 
@@ -56,9 +57,10 @@ public class LenguajesController {
     }
 
 
-    @ResponseBody
+
     @DeleteMapping("/{id}")
-    public void deleteLenguaje(@PathVariable Long id) {
+    public String delete(@PathVariable Long id) {
         lenguajeService.deleteLenguaje(id);
+        return "redirect:/admin/lenguajes?deleted";
     }
 }
